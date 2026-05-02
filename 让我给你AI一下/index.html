@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自己去问 AI</title>
+    <meta
+      name="description"
+      content="把问题生成成可公开分享的 AI 提问链接，支持复制和跳转多个 AI 平台。"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="background">
+      <div class="orb orb-a"></div>
+      <div class="orb orb-b"></div>
+      <div class="grid"></div>
+    </div>
+
+    <main class="page" id="pageRoot">
+      <section class="hero card">
+        <p class="eyebrow">Public AI Prompt Link Generator</p>
+        <h1 id="heroTitle">让我帮你AI一下</h1>
+        <p id="heroText" class="hero-text">
+          把问题贴进来，生成一个可公开访问的分享链接。
+        </p>
+      </section>
+
+      <section class="workspace">
+        <div id="composerPanel" class="card composer">
+          <div class="section-head">
+            <h2>生成链接</h2>
+            <p>支持中文、英文和超长问题，链接会自动进行 URL 编码。</p>
+          </div>
+
+          <label class="field-label" for="questionInput">把问题粘贴到这里</label>
+          <textarea
+            id="questionInput"
+            rows="8"
+            placeholder="例如：请你帮我分析这段代码为什么会出现内存泄漏，并给出可落地的修复方案。"
+          ></textarea>
+
+          <div class="actions">
+            <button id="generateButton" class="button primary" type="button">生成分享链接</button>
+            <button id="clearButton" class="button ghost" type="button">清空</button>
+          </div>
+        </div>
+
+        <div id="viewerPanel" class="card viewer">
+          <div id="linkPanel" class="link-panel">
+            <div class="section-head">
+              <h2>分享链接</h2>
+              <p>生成成功后，链接会出现在这里。</p>
+            </div>
+
+            <div id="resultPanel" class="result-panel hidden" aria-live="polite">
+              <p id="successMessage" class="success-message">链接已生成成功</p>
+              <label class="field-label" for="shareUrl">分享链接</label>
+              <div class="copy-row">
+                <input id="shareUrl" type="text" readonly />
+                <button id="copyLinkButton" class="button secondary" type="button">复制链接</button>
+              </div>
+              <p id="copyToast" class="copy-toast hidden">复制成功</p>
+              <p class="tip">把这个链接发给别人就行。</p>
+            </div>
+          </div>
+
+          <div id="shareScene" class="hidden">
+          <div id="viewerHead" class="section-head">
+            <h2>分享页预览</h2>
+            <p id="viewerHint">当前没有检测到问题参数。生成链接后，这里会同步预览分享效果。</p>
+          </div>
+
+          <div id="promptCard" class="prompt-card empty">
+            <p class="prompt-badge">Prompt</p>
+            <p id="emptyState" class="empty-state">先输入一个问题，或者直接带着 `?q=你的问题` 打开这个页面。</p>
+            <p id="teaseLine" class="tease-line hidden"></p>
+            <div id="promptContent" class="prompt-content hidden"></div>
+            <p id="redirectHint" class="redirect-hint hidden"></p>
+            <div id="cursorStage" class="cursor-stage hidden" aria-hidden="true">
+              <div id="fakeCursor" class="fake-cursor"></div>
+              <div id="fakeClick" class="fake-click"></div>
+            </div>
+            <div id="memePopup" class="meme-popup hidden" aria-hidden="true">
+              <img src="./meme.png" alt="熊猫表情包" />
+              <p class="meme-caption">man, what can i say, please ask doubao</p>
+            </div>
+          </div>
+
+          <div id="promptActions" class="prompt-actions hidden">
+            <button id="copyPromptButton" class="button primary" type="button">复制问题</button>
+            <button id="copyOpenDoubaoButton" class="button secondary" type="button">去问豆包</button>
+            <button id="cancelRedirectButton" class="button ghost hidden" type="button">暂停自动跳转</button>
+          </div>
+
+          <p id="shareTip" class="tip subtle">
+            说明：分享页会在倒计时结束后尝试自动复制，然后跳转到豆包。
+          </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
